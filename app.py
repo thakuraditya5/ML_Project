@@ -2,8 +2,6 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import joblib
 import pandas as pd
-import numpy as np
-from typing import List
 
 # Load the model directly
 model = joblib.load("model.joblib")
