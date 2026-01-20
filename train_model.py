@@ -23,30 +23,32 @@ def train():
     # 3. Train Model & Log to MLflow
     print("Training model...")
     mlflow.set_experiment("wine-quality-experiment")
-    
+
     with mlflow.start_run():
         n_estimators = 10
         random_state = 42
-        
+
         # Log parameters
         mlflow.log_param("n_estimators", n_estimators)
         mlflow.log_param("random_state", random_state)
-        
-        model = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state)
+
+        model = RandomForestClassifier(
+            n_estimators=n_estimators, random_state=random_state
+        )
         model.fit(X_train, y_train)
 
         # 4. Evaluate
         predictions = model.predict(X_test)
         accuracy = accuracy_score(y_test, predictions)
         print(f"Model Accuracy: {accuracy:.2f}")
-        
+
         # Log metrics
         mlflow.log_metric("accuracy", accuracy)
 
         # 5. Save Model
         print("Saving model to model.joblib...")
         joblib.dump(model, "model.joblib")
-        
+
         # Log model artifact
         mlflow.sklearn.log_model(model, "model")
         print("Done!")
